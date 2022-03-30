@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.helpers import read_vcf, extract_relevant_inf
+from src.helpers import read_vcf, extract_relevant_inf_snp
 import os
 import pandas as pd
 from functools import reduce
@@ -24,7 +24,7 @@ if __name__ == '__main__':
             # result['sample_name'] = str(sample_name)
 
             # append by extracting relevant information
-            df = extract_relevant_inf(result)
+            df = extract_relevant_inf_snp(result)
             VCFs_dict[sample_name] = df
             frames.append(df)
             # print(df)
@@ -43,9 +43,12 @@ if __name__ == '__main__':
         for key in VCFs_dict.keys():
             item = VCFs_dict[key]
 
-            condition = np.logical_and(item["POS"] == row["POS"], item["REF"] == row["REF"], item["ALT"] == row["ALT"])
-            condition = np.array(condition)
-            if True in condition:
+            condition_1 = np.logical_and(item["POS"] == row["POS"],
+                                         item["REF"] == row["REF"],
+                                         item["ALT"] == row["ALT"])
+            condition_1 = np.array(condition_1)
+
+            if True in condition_1:
                 row[key] = 1
             else:
                 row[key] = 0

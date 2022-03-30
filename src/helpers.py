@@ -13,6 +13,15 @@ def read_vcf(path):
     ).rename(columns={'#CHROM': 'CHROM'})
 
 
-def extract_relevant_inf(df):
+def delete_indels(ref, alt):
+    if len(ref) == 1 and len(alt) > 1:
+        return str(alt).split(',')[0]
+    else:
+        return alt
+
+
+def extract_relevant_inf_snp(df):
     # extracting a DataFrame containing fields 'POS', 'REF', 'ALT'
-    return df.iloc[:, [1, 3, 4]]
+    df = df.iloc[:, [1, 3, 4]]
+    df['ALT'] = df.apply(lambda x: delete_indels(x['REF'], x['ALT']), axis=1)
+    return df
