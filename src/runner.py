@@ -1,4 +1,4 @@
-from src.helpers import read_vcf
+from src.helpers import read_vcf, extract_relevant_inf
 import os
 
 
@@ -11,5 +11,7 @@ if __name__ == '__main__':
         f = os.path.join(directory, filename)
         if os.path.isfile(f):
             result = read_vcf(f)
-            # append in VCFs dictionary
-            VCFs_dict[list(result.keys())[-1]] = result
+            # append in VCFs dictionary by extracting relevant information
+            sample_name = list(result.keys())[-1]
+            VCFs_dict[sample_name] = extract_relevant_inf(result)
+            print(VCFs_dict)

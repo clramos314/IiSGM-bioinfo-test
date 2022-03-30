@@ -11,3 +11,8 @@ def read_vcf(path):
                'QUAL': str, 'FILTER': str, 'INFO': str},
         sep='\t'
     ).rename(columns={'#CHROM': 'CHROM'})
+
+
+def extract_relevant_inf(df):
+    # extracting a DataFrame containing fields 'POS', 'REF', 'ALT'
+    return df.iloc[:, [1, 3, 4]]
