@@ -4,6 +4,7 @@ from src.helpers import read_vcf, extract_relevant_inf_snp
 import os
 import pandas as pd
 from functools import reduce
+from scipy.spatial.distance import pdist
 
 
 if __name__ == '__main__':
@@ -59,4 +60,9 @@ if __name__ == '__main__':
     # print(presence_absence_df)
 
     presence_absence_df.to_csv(str('../temp/dfs_merged.tsv'), sep='\t', index=True)
+
+    distance_matrix = pdist(presence_absence_df)
+    # print("Arithmetic Mean is :", distance_matrix)
+    pd.DataFrame(distance_matrix).to_csv(str('../temp/dist_matrix.tsv'), sep='\t', index=True)
+
 
